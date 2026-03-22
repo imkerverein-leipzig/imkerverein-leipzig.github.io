@@ -1,7 +1,461 @@
-<html>
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Imkerverein Leipzig e.V. – Seit 1865 pflegen wir Bienen und fördern das Imkerwesen in Sachsen." />
+    <title>Imkerverein Leipzig</title>
+
+    <!-- fullPage.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.css" />
+
+    <style>
+      /* ── CSS Custom Properties ─────────────────────────────── */
+      :root {
+        --honey:       #e8a020;
+        --honey-dark:  #b87918;
+        --overlay-bg:  rgba(20, 12, 0, 0.8);
+        --text-light:  #fff;
+        --text-dark:   #1a1008;
+        --impress-bg:  #d6eadf;
+        --radius:      28px;
+        --font-display: Georgia, 'Times New Roman', serif;
+        --font-body:    -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      }
+
+      /* ── Reset & Base ──────────────────────────────────────── */
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: var(--font-body);
+        color: var(--text-light);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── Links ─────────────────────────────────────────────── */
+      a {
+        color: var(--honey);
+        text-underline-offset: 3px;
+        transition: color 0.2s;
+      }
+      a:hover  { color: #ffc84a; }
+      a:active { color: var(--honey-dark); }
+
+      /* ── Sections ──────────────────────────────────────────── */
+      .section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px clamp(1rem, 8vw, 8rem);
+        position: relative;
+        z-index: 0;
+        font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+      }
+
+      /* Shared background pattern for image sections */
+      .section.start,
+      .section.membership,
+      .section.contact {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .section.start {
+        background-image: url("./img/home_image_from_old_website.jpg");
+        justify-content: flex-start;
+        padding-top: clamp(3rem, 15vh, 8rem);
+      }
+
+      .section.membership {
+        background-image: url("./img/0001.jpg");
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding-top:  clamp(3rem, 18vh, 10rem);
+        padding-left: clamp(2rem, 15vw, 12rem);
+      }
+
+      .section.events {
+        background-image: url("./img/0005.jpg");
+        justify-content: flex-start;
+        align-items: flex-end;
+        padding-top:   clamp(3rem, 18vh, 10rem);
+        padding-right: clamp(2rem, 15vw, 12rem);
+      }
+
+      .section.contact {
+        background-image: url("./img/0050.png");
+        justify-content: flex-end;
+        align-items: flex-end;
+        padding-bottom: clamp(3rem, 18vh, 10rem);
+        padding-right:  clamp(2rem, 15vw, 12rem);
+      }
+
+      .section.impressum {
+        background: var(--impress-bg);
+        color: var(--text-dark);
+        font-size: clamp(0.8rem, 1.4vw, 1rem);
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      /* ── Headings ──────────────────────────────────────────── */
+      h1, h2 {
+        font-family: var(--font-display);
+        line-height: 1.2;
+      }
+
+      h1 {
+        font-size: clamp(1.6rem, 4.5vw, 3rem);
+        margin-bottom: 0.5em;
+        letter-spacing: -0.01em;
+      }
+
+      h2 {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        margin-bottom: 0.35em;
+        color: var(--honey);
+      }
+
+      .section.impressum h1 { color: var(--text-dark); margin-bottom: 0.75em; }
+      .section.impressum h2 { color: var(--honey-dark); }
+
+      /* ── Paragraphs ────────────────────────────────────────── */
+      p {
+        line-height: 1.75;
+        margin-bottom: 1em;
+        max-width: 65ch;
+      }
+
+      .section.start p {
+        font-size: clamp(1rem, 2vw, 1.3rem);
+        font-weight: 300;
+      }
+
+      /* ── Text Container (frosted card) ─────────────────────── */
+      .text-container {
+        position: relative;
+        z-index: 10;
+        padding: clamp(1rem, 3vw, 2em) clamp(1.2rem, 4vw, 2.5em);
+        color: var(--text-light);
+        max-width: min(780px, 100%);
+        width: 100%;
+      }
+
+      .text-container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: var(--overlay-bg);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        border-radius: var(--radius);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        z-index: -1;
+      }
+
+      /* ── Contact layout ────────────────────────────────────── */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem 2.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .contact-entry p { margin-bottom: 0; font-size: 1em; }
+
+      /* ── Impressum layout: fixed header + scrollable body ─── */
+      .impressum-inner {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+        width: calc(100% - 60px);  /* Abstand zu fp-nav */
+      }
+
+      .impressum-header {
+        flex-shrink: 0;
+        padding: 40px clamp(1rem, 8vw, 8rem) 16px;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+      }
+
+      .impressum-header h1 {
+        color: var(--text-dark);
+        margin-bottom: 0.5em;
+      }
+
+      .impressum-header p {
+        font-size: clamp(0.82rem, 1.3vw, 0.92rem);
+        color: #2a2a2a;
+        margin-bottom: 0.4em;
+        max-width: 100%;
+        line-height: 1.6;
+      }
+
+      /* scrollable disclaimer area */
+      .impressum-body {
+        flex: 1;
+        overflow-y: auto;
+        padding-top:    24px;
+        padding-bottom: 40px;
+        padding-left:   clamp(1rem, 8vw, 8rem);
+        padding-right:  1.5rem;
+      }
+
+      .impressum-body p {
+        font-size: clamp(0.78rem, 1.3vw, 0.9rem);
+        color: #2a2a2a;
+        margin-bottom: 0.75em;
+        max-width: 100%;
+        line-height: 1.75;
+      }
+
+      .impressum-body h2 {
+        color: var(--honey-dark);
+        margin-top: 0.5em;
+      }
+
+      /* ── Navigation dots (fullPage) styling ────────────────── */
+      #fp-nav ul li a span,
+      .fp-slidesNav ul li a span {
+        background: #1a1008;
+      }
+
+      #fp-nav ul li .fp-tooltip {
+        color: #1a1008;
+        background: rgba(255, 255, 255, 0.82);
+        padding: 2px 10px;
+        border-radius: 6px;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+      }
+
+      /* Remove fullPage watermark */
+      .fp-watermark { display: none; }
+
+      /* ── Responsive: mobile ────────────────────────────────── */
+      @media (max-width: 600px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .section {
+          padding: 70px 1.1rem 2rem;
+        }
+
+        .section.impressum {
+          padding: 0;
+        }
+
+        .impressum-inner {
+          width: calc(100% - 44px);
+        }
+
+        .impressum-header {
+          padding: 30px 1.1rem 12px;
+        }
+
+        .impressum-body {
+          padding-top:    16px;
+          padding-bottom: 30px;
+          padding-left:   1.1rem;
+          padding-right:  1rem;
+        }
+
+        h1 { font-size: clamp(1.4rem, 7vw, 2rem); }
+        h2 { font-size: clamp(0.95rem, 5vw, 1.2rem); }
+      }
+
+      /* ── Responsive: tablet ────────────────────────────────── */
+      @media (min-width: 601px) and (max-width: 899px) {
+        .contact-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      /* ── Fallback: no fullPage (responsiveWidth) ───────────── */
+      @media (max-width: 899px) {
+        .section {
+          min-height: 100svh;
+        }
+      }
+
+      /* ── Subtle fade-in animation ──────────────────────────── */
+      .text-container,
+      .impressum-inner {
+        animation: fadeIn 0.6s ease both;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+    </style>
+  </head>
+
   <body>
-    <h1>
-      Imkerverein
-    <h1>
+    <div id="fullpage">
+
+      <!-- ── Start ──────────────────────────────────────────── -->
+      <div class="section start">
+        <div class="text-container">
+          <h1>Imkerverein Leipzig</h1>
+          <p>Willkommen beim größten Imkerverein Sachsens. Seit 1865 pflegen wir Bienen und fördern das Imkerwesen.</p>
+        </div>
+      </div>
+
+      <!-- ── Mitgliedschaft ──────────────────────────────────── -->
+      <div class="section membership">
+        <div class="text-container">
+          <h1>Mitgliedschaft</h1>
+          <p>Jede:r ist willkommen! Bei Interesse am Imkern und Bienen einfach Kontakt aufnehmen oder eine unserer Veranstaltungen besuchen.</p>
+          <p>Hier geht es zum <a href="bin/aufnahmeantrag.pdf" target="_blank" rel="noopener">Aufnahmeantrag</a></p>
+        </div>
+      </div>
+
+      <!-- ── Veranstaltungen ─────────────────────────────────── -->
+      <div class="section events">
+        <div class="text-container">
+          <h1>Veranstaltungen</h1>
+          <p>Wir treffen uns regelmäßig zum Austausch rund ums Imkern — von Anfängerfragen bis zur Vereinsorganisation ist jede:r herzlich willkommen.</p>
+
+          <h2>Monatliches Treffen</h2>
+          <p>
+            📅 Jeden 3. Mittwoch im Monat, 18:30 Uhr<br />
+            📍 <a href="https://maps.google.com/?q=Virchowstr.+90A,+04157+Leipzig" target="_blank" rel="noopener">Gaststätte &amp; Pension Goldene Höhe</a><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;Virchowstr. 90&thinsp;A, 04157 Leipzig
+          </p>
+
+          <h2>Alle Termine</h2>
+          <p>
+            Den vollständigen Veranstaltungskalender kannst du direkt in deine Kalender-App übernehmen:<br />
+            <a href="https://export.kalender.digital/ics/40876/ddf2caaab6b0f97d622a/veranstaltungenimkerverein.ics?past_months=3&future_months=36">📆 Kalender abonnieren (.ics)</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Kontakt ─────────────────────────────────────────── -->
+      <div class="section contact">
+        <div class="text-container">
+          <h1>Kontakt</h1>
+          <div class="contact-grid">
+            <div class="contact-entry">
+              <h2>Vorsitzender</h2>
+              <p>
+                Dr. Michael Hardt<br />
+                Tel. 0163 9295043<br />
+                E-Mail: <a href="mailto:imker.leipzig@arcor.de">imker.leipzig@arcor.de</a>
+              </p>
+            </div>
+            <div class="contact-entry">
+              <h2>Stellv. Vorsitzender</h2>
+              <p>
+                Jan Pester<br />
+                Tel. 0172 3598117<br />
+                E-Mail: <a href="mailto:imker-leipzig@vodafone.de">imker-leipzig@vodafone.de</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Impressum ───────────────────────────────────────── -->
+      <div class="section impressum fp-noscroll">
+        <div class="impressum-inner">
+
+          <div class="impressum-header">
+            <h1>Impressum</h1>
+            <p>Imkerverein Leipzig e.V.</p>
+            <p>E-Mail: <a href="mailto:info@imkerverein-leipzig.de">info@imkerverein-leipzig.de</a></p>
+            <p>
+              Vertreten durch:<br />
+              – Vorsitzender: Dr. Michael Hardt<br />
+              – Stellv. Vorsitzender: Jan Pester
+            </p>
+            <p>
+              Registereintrag: Eingetragen im Vereinsregister.
+              Registergericht: Amtsgericht Leipzig –
+              Registernummer: VR 1400
+            </p>
+          </div>
+
+          <div class="impressum-body" id="impressum-body">
+            <h2>§ 1 Haftungsbeschränkung</h2>
+            <p>
+              Die Inhalte dieser Website werden mit größtmöglicher Sorgfalt erstellt. Der Anbieter übernimmt jedoch keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Inhalte. Die Nutzung der Inhalte der Website erfolgt auf eigene Gefahr des Nutzers. Namentlich gekennzeichnete Beiträge geben die Meinung des jeweiligen Autors und nicht immer die Meinung des Anbieters wieder. Mit der reinen Nutzung der Website des Anbieters kommt keinerlei Vertragsverhältnis zwischen dem Nutzer und dem Anbieter zustande.
+            </p>
+
+            <h2>§ 2 Externe Links</h2>
+            <p>
+              Diese Website enthält Verknüpfungen zu Websites Dritter („externe Links"). Diese Websites unterliegen der Haftung der jeweiligen Betreiber. Der Anbieter hat bei der erstmaligen Verknüpfung der externen Links die fremden Inhalte daraufhin überprüft, ob etwaige Rechtsverstöße bestehen. Zu dem Zeitpunkt waren keine Rechtsverstöße ersichtlich. Der Anbieter hat keinerlei Einfluss auf die aktuelle und zukünftige Gestaltung und auf die Inhalte der verknüpften Seiten. Das Setzen von externen Links bedeutet nicht, dass sich der Anbieter die hinter dem Verweis oder Link liegenden Inhalte zu Eigen macht. Eine ständige Kontrolle der externen Links ist für den Anbieter ohne konkrete Hinweise auf Rechtsverstöße nicht zumutbar. Bei Kenntnis von Rechtsverstößen werden jedoch derartige externe Links unverzüglich gelöscht.
+            </p>
+
+            <h2>§ 3 Urheber- und Leistungsschutzrechte</h2>
+            <p>
+              Die auf dieser Website veröffentlichten Inhalte unterliegen dem deutschen Urheber- und Leistungsschutzrecht. Jede vom deutschen Urheber- und Leistungsschutzrecht nicht zugelassene Verwertung bedarf der vorherigen schriftlichen Zustimmung des Anbieters oder jeweiligen Rechteinhabers. Dies gilt insbesondere für Vervielfältigung, Bearbeitung, Übersetzung, Einspeicherung, Verarbeitung bzw. Wiedergabe von Inhalten in Datenbanken oder anderen elektronischen Medien und Systemen. Inhalte und Rechte Dritter sind dabei als solche gekennzeichnet. Die unerlaubte Vervielfältigung oder Weitergabe einzelner Inhalte oder kompletter Seiten ist nicht gestattet und strafbar. Lediglich die Herstellung von Kopien und Downloads für den persönlichen, privaten und nicht kommerziellen Gebrauch ist erlaubt. Die Darstellung dieser Website in fremden Frames ist nur mit schriftlicher Erlaubnis zulässig.
+            </p>
+
+            <h2>§ 4 Besondere Nutzungsbedingungen</h2>
+            <p>
+              Soweit besondere Bedingungen für einzelne Nutzungen dieser Website von den vorgenannten Paragrafen abweichen, wird an entsprechender Stelle ausdrücklich darauf hingewiesen. In diesem Falle gelten im jeweiligen Einzelfall die besonderen Nutzungsbedingungen.
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- #fullpage -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/vendors/scrolloverflow.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        new fullpage('#fullpage', {
+          autoScrolling:          true,
+          navigation:             true,
+          navigationTooltips:     ['Start', 'Mitgliedschaft', 'Veranstaltungen', 'Kontakt', 'Impressum'],
+          anchors:                ['start', 'membership', 'events', 'contact', 'impressum'],
+          scrollOverflow:         false,
+          responsiveWidth:        900,
+          fitToSection:           true,
+          verticalCentered:       false,
+          easingcss3:             'cubic-bezier(0.645, 0.045, 0.355, 1.0)',
+          scrollingSpeed:         700,
+        });
+
+        const body = document.getElementById('impressum-body');
+
+        body.addEventListener('wheel', function (e) {
+          if (body.scrollTop === 0 && e.deltaY < 0) {
+            fullpage_api.moveSectionUp();
+          }
+        }, { passive: true });
+
+        let touchStartY = 0;
+        body.addEventListener('touchstart', function (e) {
+          touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        body.addEventListener('touchmove', function (e) {
+          const diff = touchStartY - e.touches[0].clientY;
+          if (body.scrollTop === 0 && diff < -10) {
+            fullpage_api.moveSectionUp();
+          }
+        }, { passive: true });
+      });
+    </script>
   </body>
 </html>
